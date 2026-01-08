@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Card Generator</title>
+    <!-- Save this file as: birthday-card-generator.html -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .form-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #764ba2;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .cards-section {
+            position: relative;
+        }
+
+        .card {
+            background: linear-gradient(to bottom, #fff5e6 0%, #ffe6cc 100%);
+            border: 3px solid #ff6b6b;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+            margin-bottom: 20px;
+            transform: rotate(0deg);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: rotate(0deg) scale(1.02);
+            z-index: 10;
+        }
+
+        .card:nth-child(even) {
+            transform: rotate(-1deg);
+        }
+
+        .card:nth-child(odd) {
+            transform: rotate(1deg);
+        }
+
+        .card-border {
+            border: 2px dashed #ff6b6b;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .card h3 {
+            color: #ff6b6b;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .card-message {
+            color: #333;
+            font-size: 1.2em;
+            line-height: 1.8;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .card-footer {
+            margin-top: 30px;
+            text-align: right;
+            color: #666;
+            font-style: italic;
+            font-size: 1.1em;
+        }
+
+        .balloons {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 2em;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: white;
+            font-size: 1.1em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .footer strong {
+            font-size: 1.2em;
+            color: #ffe6cc;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Birthday Card Generator 🎂</h1>
+        
+        <div class="main-content">
+            <div class="form-section">
+                <h2>Create a Birthday Card</h2>
+                <form id="cardForm">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" required placeholder="Enter their name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="number" id="age" required placeholder="Enter their age">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hobby">Hobby:</label>
+                        <input type="text" id="hobby" required placeholder="Enter their hobby">
+                    </div>
+                    
+                    <button type="submit">Generate Card! 🎁</button>
+                </form>
+            </div>
+            
+            <div class="cards-section" id="cardsContainer">
+                <!-- Cards will appear here -->
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Created by <strong>Mohanad</strong> 💻</p>
+            <p>© 2026 Birthday Card Generator</p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('cardForm');
+        const cardsContainer = document.getElementById('cardsContainer');
+
+        const funnyMessages = [
+            (name, age, hobby) => `Happy ${age}th Birthday, ${name}! 🎉 At ${age}, you're officially old enough to know better but young enough to ${hobby} anyway! Keep rocking! 🎸`,
+            (name, age, hobby) => `${name} is turning ${age}! 🎂 They say age is just a number, but ${age} is a pretty big number for someone who spends all their time ${hobby}! Have a blast! 🎊`,
+            (name, age, hobby) => `Congrats on ${age} years of awesomeness, ${name}! 🥳 May your ${hobby} skills get even better (unlike your knees)! Party on! 🎈`,
+            (name, age, hobby) => `${name}, you're ${age}! 🎉 That's ${age} years of pretending to be an adult while really just wanting to ${hobby} all day! Never change! 🌟`,
+            (name, age, hobby) => `Happy Birthday ${name}! ${age} looks good on you! 🎂 Almost as good as you look while ${hobby}! Wishing you a day full of cake and zero responsibilities! 🍰`,
+            (name, age, hobby) => `${name} is ${age} today! 🎊 Fun fact: you've spent approximately ${Math.floor(age * 2)} hours ${hobby} in your lifetime. Time well spent! 🎯`,
+            (name, age, hobby) => `Cheers to ${name} on turning ${age}! 🥳 You're not getting older, you're just becoming a vintage classic... like your ${hobby} collection! 📚`,
+            (name, age, hobby) => `${age} candles for ${name}! 🎂 That's a lot of fire hazard! Good thing you're an expert at ${hobby} to blow them all out! Stay young at heart! 💖`
+        ];
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const hobby = document.getElementById('hobby').value.toLowerCase();
+            
+            const randomMessage = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+            const message = randomMessage(name, age, hobby);
+            
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="balloons">🎈🎈</div>
+                <div class="card-border">
+                    <h3>Happy Birthday!</h3>
+                    <div class="card-message">${message}</div>
+                    <div class="card-footer">With love and laughter! 💝</div>
+                </div>
+            `;
+            
+            cardsContainer.insertBefore(card, cardsContainer.firstChild);
+            
+            form.reset();
+        });
+    </script>
+</body>
+</html>
