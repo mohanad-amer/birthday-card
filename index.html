@@ -2,278 +2,240 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Card Generator</title>
-    <!-- Save this file as: birthday-card-generator.html -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <title>M.A. Table Tennis 🏓</title>
+    <meta name="description" content="A professional table tennis experience by M.A.">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* Luxury Serif Font for Signature */
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@600&display=swap');
 
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: none; }
+        
         body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            color: #fff;
-            font-size: 3em;
-            margin-bottom: 30px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            align-items: start;
-        }
-
-        .form-section {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .form-section h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #764ba2;
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, system-ui, sans-serif;
+            background: #0f0f1a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
             color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
+            overflow: hidden;
+            padding: 10px 15px;
         }
 
-        button:hover {
-            transform: scale(1.05);
+        /* Top Menu Bar */
+        .controls { 
+            background: rgba(255, 255, 255, 0.08); 
+            padding: 6px 10px; border-radius: 12px; 
+            display: flex; gap: 6px; margin-bottom: 8px;
+            width: 100%; max-width: 400px; justify-content: center; flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        select, input, button { 
+            padding: 5px; border-radius: 6px; border: none; 
+            background: #2a2a40; color: white; font-size: 11px; font-weight: 600;
+        }
+        input[type="number"] { width: 35px; text-align: center; }
+        button#startBtn { background: #4CAF50; cursor: pointer; }
+        button#resetBtn { background: #f44336; cursor: pointer; }
+
+        .scores { 
+            display: flex; justify-content: space-around;
+            width: 100%; max-width: 350px; font-weight: 800;
+            font-size: 15px; margin-bottom: 8px; flex-shrink: 0;
         }
 
-        button:active {
-            transform: scale(0.98);
+        /* The Professional Court */
+        #gameCanvas {
+            border: 2px solid #fff; border-radius: 8px;
+            background: #2d8659; width: 100%; max-width: 380px;
+            flex-grow: 1; max-height: 58vh; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: block;
         }
 
-        .cards-section {
-            position: relative;
+        /* Control Area */
+        .control-footer {
+            width: 100%; max-width: 380px; display: flex;
+            justify-content: center; gap: 15px;
+            padding: 15px 0 env(safe-area-inset-bottom); flex-shrink: 0;
         }
 
-        .card {
-            background: linear-gradient(to bottom, #fff5e6 0%, #ffe6cc 100%);
-            border: 3px solid #ff6b6b;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            position: relative;
-            margin-bottom: 20px;
-            transform: rotate(0deg);
-            transition: all 0.3s ease;
+        .btn-touch {
+            flex: 1; height: 55px; max-width: 140px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px; display: flex;
+            align-items: center; justify-content: center; font-size: 24px;
         }
 
-        .card:hover {
-            transform: rotate(0deg) scale(1.02);
-            z-index: 10;
-        }
+        .btn-touch:active { background: rgba(76, 175, 80, 0.4); transform: scale(0.96); }
 
-        .card:nth-child(even) {
-            transform: rotate(-1deg);
-        }
+        #p2TouchZone { display: none; margin-bottom: 10px; }
 
-        .card:nth-child(odd) {
-            transform: rotate(1deg);
-        }
-
-        .card-border {
-            border: 2px dashed #ff6b6b;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .card h3 {
-            color: #ff6b6b;
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-align: center;
-            text-transform: uppercase;
-        }
-
-        .card-message {
-            color: #333;
-            font-size: 1.2em;
-            line-height: 1.8;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .card-footer {
-            margin-top: 30px;
-            text-align: right;
-            color: #666;
-            font-style: italic;
-            font-size: 1.1em;
-        }
-
-        .balloons {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            font-size: 2em;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: white;
-            font-size: 1.1em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .footer strong {
-            font-size: 1.2em;
-            color: #ffe6cc;
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 2em;
-            }
+        .game-over {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.95); padding: 30px;
+            border-radius: 20px; text-align: center;
+            display: none; z-index: 100; border: 2px solid #4CAF50;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎉 Birthday Card Generator 🎂</h1>
-        
-        <div class="main-content">
-            <div class="form-section">
-                <h2>Create a Birthday Card</h2>
-                <form id="cardForm">
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" required placeholder="Enter their name">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="age">Age:</label>
-                        <input type="number" id="age" required placeholder="Enter their age">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="hobby">Hobby:</label>
-                        <input type="text" id="hobby" required placeholder="Enter their hobby">
-                    </div>
-                    
-                    <button type="submit">Generate Card! 🎁</button>
-                </form>
-            </div>
-            
-            <div class="cards-section" id="cardsContainer">
-                <!-- Cards will appear here -->
-            </div>
-        </div>
 
-        <div class="footer">
-            <p>Created by <strong>Mohanad</strong> 💻</p>
-            <p>© 2026 Birthday Card Generator</p>
+    <div class="controls">
+        <select id="gameMode">
+            <option value="single">vs Robot</option>
+            <option value="two-player">2 Players</option>
+        </select>
+        <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <div style="display:flex; align-items:center; gap:3px;">
+            <span style="font-size:10px;">Pts:</span>
+            <input type="number" id="winPoints" value="11">
         </div>
+        <button id="startBtn">START</button>
+        <button id="resetBtn">RESET</button>
+    </div>
+
+    <div class="control-footer" id="p2TouchZone">
+        <div class="btn-touch" id="p2Left">◀</div>
+        <div class="btn-touch" id="p2Right">▶</div>
+    </div>
+
+    <div class="scores">
+        <div id="labelTop" style="color: #ffadad;">Robot: <span id="scoreTop">0</span></div>
+        <div style="color: #9bf6ff;">YOU: <span id="scoreBottom">0</span></div>
+    </div>
+
+    <canvas id="gameCanvas" width="450" height="750"></canvas>
+
+    <div class="control-footer">
+        <div class="btn-touch" id="p1Left">◀</div>
+        <div class="btn-touch" id="p1Right">▶</div>
+    </div>
+
+    <div class="game-over" id="gameOver">
+        <h2 id="winnerText">WINNER!</h2>
+        <button onclick="location.reload()" style="margin-top:15px; padding:10px 20px; background:#4CAF50; color:white; border:none; border-radius:10px; font-weight:bold;">PLAY AGAIN</button>
     </div>
 
     <script>
-        const form = document.getElementById('cardForm');
-        const cardsContainer = document.getElementById('cardsContainer');
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        const funnyMessages = [
-            (name, age, hobby) => `Happy ${age}th Birthday, ${name}! 🎉 At ${age}, you're officially old enough to know better but young enough to ${hobby} anyway! Keep rocking! 🎸`,
-            (name, age, hobby) => `${name} is turning ${age}! 🎂 They say age is just a number, but ${age} is a pretty big number for someone who spends all their time ${hobby}! Have a blast! 🎊`,
-            (name, age, hobby) => `Congrats on ${age} years of awesomeness, ${name}! 🥳 May your ${hobby} skills get even better (unlike your knees)! Party on! 🎈`,
-            (name, age, hobby) => `${name}, you're ${age}! 🎉 That's ${age} years of pretending to be an adult while really just wanting to ${hobby} all day! Never change! 🌟`,
-            (name, age, hobby) => `Happy Birthday ${name}! ${age} looks good on you! 🎂 Almost as good as you look while ${hobby}! Wishing you a day full of cake and zero responsibilities! 🍰`,
-            (name, age, hobby) => `${name} is ${age} today! 🎊 Fun fact: you've spent approximately ${Math.floor(age * 2)} hours ${hobby} in your lifetime. Time well spent! 🎯`,
-            (name, age, hobby) => `Cheers to ${name} on turning ${age}! 🥳 You're not getting older, you're just becoming a vintage classic... like your ${hobby} collection! 📚`,
-            (name, age, hobby) => `${age} candles for ${name}! 🎂 That's a lot of fire hazard! Good thing you're an expert at ${hobby} to blow them all out! Stay young at heart! 💖`
-        ];
+        function playSfx(freq, dur, vol) {
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.frequency.value = freq; gain.gain.value = vol;
+                osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + dur);
+                osc.stop(audioCtx.currentTime + dur);
+            } catch(e) {}
+        }
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
+        let gameRunning = false, pBX = 175, pTX = 175, sB = 0, sT = 0;
+        let bX = 225, bY = 375, bSX = 6, bSY = 6; 
+        const pThick = 18, pLen = 100, bRad = 10, pSpd = 12; 
+        const keys = {}, touch = { p1L: false, p1R: false, p2L: false, p2R: false };
+
+        window.addEventListener('keydown', e => keys[e.key] = true);
+        window.addEventListener('keyup', e => keys[e.key] = false);
+
+        function bindT(id, prop) {
+            const el = document.getElementById(id);
+            const set = (val) => (e) => { e.preventDefault(); touch[prop] = val; };
+            el.addEventListener('touchstart', set(true)); el.addEventListener('touchend', set(false));
+            el.addEventListener('mousedown', () => touch[prop] = true); el.addEventListener('mouseup', () => touch[prop] = false);
+        }
+        bindT('p1Left', 'p1L'); bindT('p1Right', 'p1R');
+        bindT('p2Left', 'p2L'); bindT('p2Right', 'p2R');
+
+        document.getElementById('gameMode').onchange = (e) => {
+            const is2P = e.target.value === 'two-player';
+            document.getElementById('p2TouchZone').style.display = is2P ? 'flex' : 'none';
+            document.getElementById('labelTop').innerHTML = (is2P ? 'P2: ' : 'Robot: ') + `<span id="scoreTop">${sT}</span>`;
+        };
+
+        function resetBall() {
+            bX = 225; bY = 375;
+            bSY = Math.random() < 0.5 ? 6 : -6;
+            bSX = (Math.random() - 0.5) * 8;
+        }
+
+        function update() {
+            if (!gameRunning) return;
+            if ((keys['ArrowLeft'] || touch.p1L) && pBX > 0) pBX -= pSpd;
+            if ((keys['ArrowRight'] || touch.p1R) && pBX < canvas.width - pLen) pBX += pSpd;
+            if (document.getElementById('gameMode').value === 'two-player') {
+                if ((keys['a'] || touch.p2L) && pTX > 0) pTX -= pSpd;
+                if ((keys['d'] || touch.p2R) && pTX < canvas.width - pLen) pTX += pSpd;
+            } else {
+                let aiSpd = (document.getElementById('difficulty').value === 'easy' ? 4.5 : 8);
+                if (bSY < 0) {
+                    if (pTX + pLen/2 < bX - 10) pTX += aiSpd;
+                    else if (pTX + pLen/2 > bX + 10) pTX -= aiSpd;
+                }
+            }
+            bX += bSX; bY += bSY;
+            if (bX - bRad < 0 || bX + bRad > canvas.width) { bSX *= -1; playSfx(150, 0.05, 0.05); }
+            if (bY + bRad > canvas.height - 30 && bX > pBX && bX < pBX + pLen && bSY > 0) {
+                bSY = -Math.abs(bSY) * 1.05; bSX += (bX - (pBX + pLen/2)) / 8; playSfx(300, 0.1, 0.1);
+            }
+            if (bY - bRad < 30 && bX > pTX && bX < pTX + pLen && bSY < 0) {
+                bSY = Math.abs(bSY) * 1.05; bSX += (bX - (pTX + pLen/2)) / 8; playSfx(300, 0.1, 0.1);
+            }
+            if (bY < 0) { sB++; resetBall(); playSfx(440, 0.2, 0.1); }
+            if (bY > canvas.height) { sT++; resetBall(); playSfx(440, 0.2, 0.1); }
+            document.getElementById('scoreBottom').textContent = sB;
+            document.getElementById('scoreTop').textContent = sT;
+
+            const win = parseInt(document.getElementById('winPoints').value) || 11;
+            if (sB >= win || sT >= win) {
+                gameRunning = false;
+                document.getElementById('gameOver').style.display = 'block';
+                document.getElementById('winnerText').textContent = sB >= win ? "YOU WIN!" : "ROBOT WINS!";
+            }
+        }
+
+        function draw() {
+            // Background
+            ctx.fillStyle = '#2d8659'; ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            const name = document.getElementById('name').value;
-            const age = document.getElementById('age').value;
-            const hobby = document.getElementById('hobby').value.toLowerCase();
+            // Court Lines
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(0, 375); ctx.lineTo(450, 375); ctx.stroke();
             
-            const randomMessage = funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
-            const message = randomMessage(name, age, hobby);
+            // The M.A. Signature
+            ctx.save();
+            ctx.fillStyle = '#1b5236'; // Darker forest green for elegance
+            ctx.font = '600 18px "Bodoni Moda", serif'; 
+            ctx.textAlign = 'right';
+            ctx.fillText('M.A.', canvas.width - 20, canvas.height - 20);
+            ctx.restore();
             
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <div class="balloons">🎈🎈</div>
-                <div class="card-border">
-                    <h3>Happy Birthday!</h3>
-                    <div class="card-message">${message}</div>
-                    <div class="card-footer">With love and laughter! 💝</div>
-                </div>
-            `;
-            
-            cardsContainer.insertBefore(card, cardsContainer.firstChild);
-            
-            form.reset();
-        });
+            // Paddles and Ball
+            ctx.fillStyle = '#d2b48c'; 
+            ctx.fillRect(pBX, canvas.height - 30, pLen, pThick); 
+            ctx.fillRect(pTX, 15, pLen, pThick);
+            ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(bX, bY, bRad, 0, Math.PI*2); ctx.fill();
+        }
+
+        function loop() { update(); draw(); requestAnimationFrame(loop); }
+        document.getElementById('startBtn').onclick = () => { 
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            gameRunning = true; sB = 0; sT = 0; resetBall(); 
+        };
+        document.getElementById('resetBtn').onclick = () => location.reload();
+        loop();
     </script>
 </body>
 </html>
